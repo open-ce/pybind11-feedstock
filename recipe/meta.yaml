@@ -16,7 +16,7 @@ source:
     - gh3577.patch
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: pybind11-abi
@@ -35,12 +35,11 @@ outputs:
 
   - name: pybind11-global
     script: build-pybind11-global.sh  # [unix]
-    script: build-pybind11-global.bat  # [win]
     requirements:
       build:
         - python                                 # [build_platform != target_platform]
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-        - cmake
+        - cmake {{cmake}}
         - make  # [unix]
         - {{ compiler('cxx') }}
       host:
@@ -57,12 +56,11 @@ outputs:
 
   - name: pybind11
     script: build-pybind11.sh  # [unix]
-    script: build-pybind11.bat  # [win]
     requirements:
       build:
         - python                                 # [build_platform != target_platform]
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-        - cmake
+        - cmake {{cmake}}
         - make  # [unix]
         - {{ compiler('cxx') }}
       host:
@@ -79,11 +77,8 @@ outputs:
         - pybind11
       commands:
         - test -f ${PREFIX}/share/cmake/pybind11/pybind11Config.cmake                                     # [unix]
-        - if exist %LIBRARY_PREFIX%\share\cmake\pybind11\pybind11Config.cmake (exit 0) else (exit 1)      # [win]
         - test -f ${PREFIX}/include/pybind11/pybind11.h      # [unix]
-        - if exist %LIBRARY_INC%\pybind11\pybind11.h (exit 0) else (exit 1)      # [win]
         - test -f $(python -c "import pybind11 as py; print(py.get_include())")/pybind11/pybind11.h      # [unix]
-        - if exist $(python -c "import pybind11 as py; print(py.get_include())")\pybind11\pybind11.h (exit 0) else (exit 1)      # [win]
 
 about:
   home: https://github.com/pybind/pybind11/
@@ -95,7 +90,4 @@ about:
 
 extra:
   recipe-maintainers:
-    - ax3l
-    - SylvainCorlay
-    - wjakob
-    - henryiii
+    - open-ce/open-ce-dev-team
