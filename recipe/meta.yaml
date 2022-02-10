@@ -44,7 +44,7 @@ outputs:
       host:
         - python
         - pip
-        - setuptools
+        - setuptools {{setuptools}}
       run:
         - python
       run_constrained:
@@ -65,7 +65,7 @@ outputs:
       host:
         - python
         - pip
-        - setuptools
+        - setuptools {{setuptools}}
       run:
         - python
         - {{ pin_subpackage("pybind11-global", exact=True) }}
